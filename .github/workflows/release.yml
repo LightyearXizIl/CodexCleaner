@@ -33,4 +33,11 @@ jobs:
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create $env:GITHUB_REF_NAME artifacts\installer\CodexCleaner-0.0.1-Setup.exe artifacts\portable\CodexCleaner-win-x64.zip artifacts\CodexCleaner-v0.0.1-SHA256.txt --title "Codex Cleaner $env:GITHUB_REF_NAME" --notes-file CHANGELOG.md
+        shell: pwsh
+        run: |
+          $assets = @('artifacts\installer\CodexCleaner-0.0.1-Setup.exe', 'artifacts\portable\CodexCleaner-win-x64.zip', 'artifacts\CodexCleaner-v0.0.1-SHA256.txt')
+          if (gh release view $env:GITHUB_REF_NAME --repo $env:GITHUB_REPOSITORY) {
+            gh release upload $env:GITHUB_REF_NAME $assets --clobber
+          } else {
+            gh release create $env:GITHUB_REF_NAME $assets --title "Codex Cleaner $env:GITHUB_REF_NAME" --notes-file CHANGELOG.md
+          }
