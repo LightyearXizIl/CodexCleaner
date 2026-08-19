@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    x:Class="CodexCleaner.App.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CodexCleaner.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="CanvasBrush" Color="#F6F8FC" />
+            <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="InkBrush" Color="#121826" />
+            <SolidColorBrush x:Key="MutedBrush" Color="#667085" />
+            <SolidColorBrush x:Key="LineBrush" Color="#E5EAF2" />
+            <SolidColorBrush x:Key="BrandBrush" Color="#246BFD" />
+            <SolidColorBrush x:Key="BrandSoftBrush" Color="#EEF4FF" />
+            <SolidColorBrush x:Key="SuccessBrush" Color="#16A56A" />
+            <SolidColorBrush x:Key="WarningBrush" Color="#F2A93B" />
+            <SolidColorBrush x:Key="DangerBrush" Color="#ED5C6B" />
+            <CornerRadius x:Key="CardRadius">12</CornerRadius>
+            <Style x:Key="PillButtonStyle" TargetType="Button">
+                <Setter Property="Padding" Value="16,10" />
+                <Setter Property="MinHeight" Value="42" />
+                <Setter Property="CornerRadius" Value="22" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

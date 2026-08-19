@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CodexCleaner.App (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CodexCleaner.App (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

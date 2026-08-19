@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Restore
+        run: dotnet restore CodexCleaner.slnx
+      - name: Build
+        run: dotnet build CodexCleaner.slnx -c Release --no-restore
+      - name: Test
+        run: dotnet test CodexCleaner.slnx -c Release --no-build --no-restore
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+      - name: Package
+        run: .\scripts\Build-Installer.ps1 -Configuration Release
+      - name: Checksums
+        shell: pwsh
+        run: |
+          Get-FileHash artifacts\portable\CodexCleaner-win-x64.zip -Algorithm SHA256 | ForEach-Object { "$($_.Hash.ToLowerInvariant())  CodexCleaner-win-x64.zip" } | Set-Content artifacts\CodexCleaner-v0.0.1-SHA256.txt -Encoding utf8
+          Get-Content artifacts\installer\CodexCleaner-0.0.1-Setup.exe.sha256 | Add-Content artifacts\CodexCleaner-v0.0.1-SHA256.txt
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create $env:GITHUB_REF_NAME artifacts\installer\CodexCleaner-0.0.1-Setup.exe artifacts\portable\CodexCleaner-win-x64.zip artifacts\CodexCleaner-v0.0.1-SHA256.txt --title "Codex Cleaner $env:GITHUB_REF_NAME" --notes-file CHANGELOG.md

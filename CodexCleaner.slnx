@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CodexCleaner.App/CodexCleaner.App.csproj" />
+    <Project Path="src/CodexCleaner.Core/CodexCleaner.Core.csproj" />
+    <Project Path="src/CodexCleaner.ElevatedHelper/CodexCleaner.ElevatedHelper.csproj" />
+    <Project Path="src/CodexCleaner.Services/CodexCleaner.Services.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CodexCleaner.Core.Tests/CodexCleaner.Core.Tests.csproj" />
+    <Project Path="tests/CodexCleaner.Integration.Tests/CodexCleaner.Integration.Tests.csproj" />
+  </Folder>
+</Solution>
