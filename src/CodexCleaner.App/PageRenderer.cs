@@ -230,9 +230,16 @@ internal static class PageRenderer
 
     private static UIElement Migration(MainViewModel vm, Action<AppPage> navigate)
     {
-        var target = new TextBox { PlaceholderText = "选择其他磁盘的目标文件夹，例如 D:\\CodexCleanerCaches" };
+        var target = new TextBox { Text = vm.MigrationTargetPath, PlaceholderText = "选择其他磁盘的目标文件夹，例如 D:\\CodexCleanerCaches" };
         var selected = new List<(MigrationItem Item, CheckBox Box)>();
-        var list = Stack(Text(vm.MigrationMessage, 14, Brush("MutedBrush")), Action("生成迁移计划", () => _ = vm.DiscoverMigrationAsync(target.Text.Trim()), true));
+        var list = Stack(Text(vm.MigrationMessage, 14, Brush("MutedBrush")), Action("选择目标文件夹", async () =>
+        {
+            var picker = new Windows.Storage.Pickers.FolderPicker();
+            picker.FileTypeFilter.Add("*");
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, App.WindowHandle);
+            var folder = await picker.PickSingleFolderAsync();
+            if (folder is not null) target.Text = folder.Path;
+        }), Action("生成迁移计划", () => _ = vm.DiscoverMigrationAsync(target.Text.Trim()), true));
         foreach (var item in vm.MigrationCandidates)
         {
             var check = new CheckBox { IsChecked = false, VerticalAlignment = VerticalAlignment.Center };

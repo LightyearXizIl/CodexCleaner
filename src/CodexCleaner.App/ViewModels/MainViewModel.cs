@@ -19,6 +19,7 @@ public partial class MainViewModel(IScanCoordinator scanner, ICleanupService cle
     [ObservableProperty] private IReadOnlyList<MigrationRecord> migrationRecords = [];
     [ObservableProperty] private IReadOnlyList<MigrationItem> migrationCandidates = [];
     [ObservableProperty] private string migrationMessage = "请选择其他磁盘上的目标文件夹以生成迁移计划。";
+    [ObservableProperty] private string migrationTargetPath = string.Empty;
     [ObservableProperty] private UpdateCheckResult? updateResult;
     // The unpackaged portable build keeps its own atomic local history store;
     // the MSIX build uses the SQLite/WAL implementation registered by its host.
@@ -75,6 +76,7 @@ public partial class MainViewModel(IScanCoordinator scanner, ICleanupService cle
     }
     public async Task DiscoverMigrationAsync(string targetRoot, CancellationToken cancellationToken = default)
     {
+        MigrationTargetPath = targetRoot;
         MigrationCandidates = await migration.DiscoverAsync(targetRoot, Result?.Candidates ?? [], cancellationToken);
         MigrationMessage = MigrationCandidates.Count == 0 ? "没有可安全迁移的 npm、pip、uv 或 Playwright 缓存。" : $"已找到 {MigrationCandidates.Count} 项可迁移缓存；源缓存会保留至二次确认。";
     }
